@@ -1,0 +1,85 @@
+PC:
+ip "#ip/#mask" "#gateway"
+ip 192.168.1.2/24 192.168.1.1
+  save: 
+    save
+
+  Centos:
+    LOGIN:
+	root
+	ELO324
+    IP:
+	ifconfig
+	sudo ifconfig enp0s3 192.168.1.2 netmask 255.255.255.128
+    alternativa:
+	nmtui
+
+
+SW:
+  VLAN:
+    crear:
+	vlan d
+	vlan 10
+    eliminar:
+	vlan d
+	no vlan 10
+    agregar PCs:
+	conf t
+	int f 0/0
+	sw m a
+	sw a vlan 10
+    ver:
+	sh vlan-sw
+    save:
+	wr
+
+  TRUNK:
+    configurar:
+	conf t
+	int f 0/15
+	sw t enc dot1q		// no sw m t
+	sw m t			//WAIT
+    revisar:
+	sh int t
+
+  VTP:
+    borrar flash:
+	er flash:
+
+    configurar:
+	vlan d
+	vtp domain "nombre"
+	vtp password "pass"
+	vtp s // c      (server o client)
+
+  SPANNING-TREE:
+	de span ev
+
+    Mostrar:
+	sh spanning-tree vlan
+	sh spanning-tree vlan 1 brief
+
+
+ROUTER:
+  IP:
+	conf t
+	int f 0/0
+	ip add 192.168.1.1 255.255.255.0
+	no shut
+  ver IP:
+	sh ip int b
+
+  TRUNK:
+	conf t
+	in f 0/0
+	no shut
+	in f 0/0.10
+	en dot1q 10
+	ip add 192.168.1.1 255.255.255.0
+	exit
+
+
+MikroTIK
+  LOGIN:
+	admin
+	enter
